@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import articles from "../constants/articleContent";
 import Articles from "../components/Articles";
 
