@@ -1,12 +1,13 @@
 import React from "react";
 import articles from "../constants/articleContent";
 import Articles from "../components/Articles";
+import NotFound from "./error/404";
 
 const Article = ({ match }) => {
 	const article = articles.find(
 		(article) => article.name === match.params.name
 	);
-	if (!article) return <h1>Article not found</h1>;
+	if (!article) return <NotFound />;
 	const articlesLeft = articles.filter(
 		(article) => article.name !== match.params.name
 	);

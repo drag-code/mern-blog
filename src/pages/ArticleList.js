@@ -11,7 +11,7 @@ const ArticleList = () => {
 			</h1>
 			<div className="container py-4">
 				<div className="flex flex-wrap">
-					<Articles articles={articles}/>
+					<Articles articles={articles} />
 				</div>
 			</div>
 		</div>
