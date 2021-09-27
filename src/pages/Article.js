@@ -1,15 +1,33 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import articles from "../constants/articleContent";
 import Articles from "../components/Articles";
 import NotFound from "./error/404";
+import Comment from "../components/Comment";
+import instance from "../config/axios";
 
 const Article = ({ match }) => {
+	const articleName = match.params.name;
+	const [loading, setLoading] = useState(true);
+	const [comments, setComments] = useState([]);
+
+	useEffect(() => {
+		fetchComments();
+	}, [articleName]);
+
+
+	const fetchComments = async() => {
+		console.log(instance.defaults);
+		const {data} = await instance.get(`api/articles/${articleName}/comments`)
+		setComments(data.comments);
+		setLoading(false);
+	}
+
 	const article = articles.find(
-		(article) => article.name === match.params.name
+		(article) => article.name === articleName
 	);
 	if (!article) return <NotFound />;
 	const articlesLeft = articles.filter(
-		(article) => article.name !== match.params.name
+		(article) => article.name !== articleName
 	);
 	return (
 		<div>
@@ -24,6 +42,13 @@ const Article = ({ match }) => {
 			</h1>
 			<div className="flex flex-wrap -m-4">
 				<Articles articles={articlesLeft} />
+			</div>
+			<div>
+				{
+					!loading ?
+					comments.map(comment => (<Comment />)) :
+					null
+				}
 			</div>
 		</div>
 	);
