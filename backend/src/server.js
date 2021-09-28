@@ -1,7 +1,7 @@
 const express = require("express");
 const { MongoClient } = require("mongodb");
 const cors = require("cors");
-const client = new MongoClient("mongodb://localhost:27017");
+const client = new MongoClient("mongodb+srv://admin:4DM1N123@cluster0.ckk25.mongodb.net/blog?retryWrites=true&w=majority");
 const app = express();
 
 app.use(express.json());
@@ -26,8 +26,8 @@ app.get("/api/articles/:name", (req, res) => {
 		const article = await db
 			.collection("articles")
 			.findOne({ name: articleName });
-		if (!article) res.status(404).json({ message: "Not found" });
-		res.status(200).json(article);
+		if (!article) return res.status(404).json({ message: "Not found" });
+		return res.status(200).json(article);
 	}, res);
 });
 
@@ -42,7 +42,7 @@ app.post("/api/articles/:article/add-comment", (req, res) => {
 			}
 		});
 		const updatedArticle = await db.collection("articles").findOne({name: articleName});
-		res.status(200).json(updatedArticle);
+		return res.status(200).json(updatedArticle);
 	}, res);
 });
 
